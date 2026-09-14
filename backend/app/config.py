@@ -24,6 +24,8 @@ PRISM_CONFIGURED = bool(PRISMTRACE_PROJECT_ID and PRISMTRACE_API_KEY)
 
 CLIPS_DIR = _ROOT / "backend" / "clips"
 LABELS_PATH = CLIPS_DIR / "labels.json"
+HELDOUT_MANIFEST_PATH = _ROOT / "ml" / "heldout_manifest.json"
+HELDOUT_AUDIO_DIR = _ROOT / "ml" / "data" / "heldout"
 
 # ASVspoof-style deepfake detection checkpoints (verified complete on HF Hub:
 # model weights + config with id2label + preprocessor_config.json).
@@ -32,6 +34,12 @@ MODEL_ID = os.environ.get("VOXG_MODEL_ID", "Bisher/wav2vec2_ASV_deepfake_audio_d
 
 AGENT_ID = "voice-scam-classifier"
 CHUNK_SECONDS = 3.0
+
+# Decision threshold on the synthetic-class probability. Calibrated at 0.30
+# from the v1 threshold sweep (ml/threshold_sweep.json): A10 chunks sit at
+# p_synth 0.40-0.50 while human chunks max out at 0.153. Override with
+# VOXG_DECISION_THRESHOLD; rationale in docs/AI_MODEL.md.
+DECISION_THRESHOLD = float(os.environ.get("VOXG_DECISION_THRESHOLD", "0.50"))
 
 
 def require_prism_config() -> None:

@@ -11,7 +11,7 @@ import logging
 import numpy as np
 import torch
 
-from .config import MODEL_ID
+from .config import DECISION_THRESHOLD, MODEL_ID
 
 logger = logging.getLogger("voxg.classifier")
 
@@ -88,6 +88,10 @@ def classify(window: torch.Tensor, sample_rate: int) -> tuple[bool, float]:
         synthetic_prob = float(probs[_synthetic_index])
     else:
         synthetic_prob = float(probs.max())  # degenerate fallback
-    is_synthetic = synthetic_prob >= 0.5
+    # Calibrated decision boundary (config.DECISION_THRESHOLD, env:
+    # VOXG_DECISION_THRESHOLD). Lowered from the naive 0.50 after the v1 PRISM
+    # diagnosis showed attack_A10 chunks sitting at p_synth 0.40-0.50 while
+    # human chunks never exceed 0.153.
+    is_synthetic = synthetic_prob >= DECISION_THRESHOLD
     confidence = round(max(synthetic_prob, 1.0 - synthetic_prob), 4)
     return is_synthetic, confidence

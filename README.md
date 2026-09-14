@@ -46,5 +46,6 @@ Only proceed to logging the real evaluation batch when `live_connected` is `true
 See `PLAN.md` for the full build plan, and the deep-dive docs:
 
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — how the system works (plain-English intro, system diagrams, component reference, model details)
+- [`docs/AI_MODEL.md`](docs/AI_MODEL.md) — the AI component: how it works, why it works, evaluation evidence, parameter calibration, fine-tuning verdict
 - [`docs/TECH_STACK.md`](docs/TECH_STACK.md) — every technology, why it was chosen, and what was deliberately rejected
 - [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md) — setup, demo, the PRISM evaluation loop, event-night checklist, troubleshooting

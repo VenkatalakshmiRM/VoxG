@@ -52,6 +52,8 @@ def main() -> int:
     correct = 0
     total = 0
     errors = 0
+    from collections import defaultdict
+    stats: dict[str, dict] = defaultdict(lambda: {"total": 0, "correct": 0})
     t0 = time.perf_counter()
 
     for i, clip in enumerate(clips):
@@ -74,8 +76,13 @@ def main() -> int:
                 res = r.json()
                 pred = "synthetic" if res["is_synthetic"] else "real"
                 total += 1
+                gen = clip.get("generator_type", "unknown")
+                for key in ("all", gen):
+                    stats[key]["total"] += 1
                 if pred == clip.get("label"):
                     correct += 1
+                    stats["all"]["correct"] += 1
+                    stats[gen]["correct"] += 1
             except Exception as e:
                 errors += 1
                 print(f"  ! {clip['id']} chunk{chunk_idx}: {e}", file=sys.stderr)
@@ -90,7 +97,30 @@ def main() -> int:
         f"errors={errors}, elapsed={elapsed:.0f}s"
     )
     print(f"Session id for PRISM: {session_id}")
-    print("Verify traces: PRISM dashboard → Root Cause / Agent Intelligence.")
+    print("Verify traces: PRISM dashboard -> Root Cause / Agent Intelligence.")
+
+    print("\nAccuracy by generator type (the PRISM diagnosis view):")
+    for gen, s in sorted(stats.items()):
+        if gen == "all":
+            continue
+        a = s["correct"] / s["total"] if s["total"] else 0.0
+        print(f"  {gen}: {a:.3f} ({s['correct']}/{s['total']})")
+
+    out = ROOT / "ml" / f"results_{args.run_version}.json"
+    out.write_text(json.dumps({
+        "run_version": args.run_version,
+        "session_id": session_id,
+        "model_chunks": total,
+        "accuracy": acc,
+        "correct": correct,
+        "errors": errors,
+        "elapsed_s": round(elapsed, 1),
+        "by_generator": {
+            g: {"acc": s["correct"] / s["total"], "n": s["total"]}
+            for g, s in sorted(stats.items()) if g != "all"
+        },
+    }, indent=2), encoding="utf-8")
+    print(f"Saved: {out}")
     return 0 if errors == 0 else 1
 
 

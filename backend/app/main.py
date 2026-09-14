@@ -14,7 +14,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 
 from . import classifier, chunking, prism
-from .config import AGENT_ID, CLIPS_DIR, LABELS_PATH
+from .config import (
+    AGENT_ID,
+    CLIPS_DIR,
+    DECISION_THRESHOLD,
+    HELDOUT_AUDIO_DIR,
+    HELDOUT_MANIFEST_PATH,
+    LABELS_PATH,
+)
 from .schemas import (
     CallSessionResponse,
     ClassifyChunkRequest,
@@ -30,6 +37,8 @@ app = FastAPI(title="VoxG — Cloned-Voice Scam Call Detector")
 
 # ground-truth metadata per clip id, loaded from labels.json
 _labels: dict[str, dict] = {}
+# held-out eval metadata per clip id, loaded from heldout_manifest.json
+_eval_labels: dict[str, dict] = {}
 
 
 @app.on_event("startup")
@@ -49,6 +58,13 @@ def load_labels() -> None:
         logger.warning(
             "No labels.json at %s — run ml/prepare_data.py to curate demo clips",
             LABELS_PATH,
+        )
+    global _eval_labels
+    if HELDOUT_MANIFEST_PATH.exists():
+        data = json.loads(HELDOUT_MANIFEST_PATH.read_text(encoding="utf-8"))
+        _eval_labels = {c["id"]: c for c in data.get("clips", [])}
+        logger.info(
+            "Loaded %d held-out eval clips from %s", len(_eval_labels), HELDOUT_MANIFEST_PATH
         )
 
 
@@ -83,12 +99,15 @@ if CLIPS_DIR.exists():
 
 @app.post("/classify-chunk", response_model=ClassifyChunkResponse)
 def classify_chunk(req: ClassifyChunkRequest) -> ClassifyChunkResponse:
-    meta = _labels.get(req.clip_id)
+    # Eval clips (replay batch) resolve from ml/data/heldout; demo clips from
+    # backend/clips. Held-out audio never appears in the UI picker.
+    meta = _eval_labels.get(req.clip_id) or _labels.get(req.clip_id)
+    audio_dir = HELDOUT_AUDIO_DIR if req.clip_id in _eval_labels else CLIPS_DIR
     if meta is None:
         raise HTTPException(status_code=404, detail=f"Unknown clip_id: {req.clip_id}")
 
     filename = meta.get("filename", "")
-    audio_path = CLIPS_DIR / filename
+    audio_path = audio_dir / filename
     if not audio_path.exists():
         raise HTTPException(
             status_code=404, detail=f"Audio file missing: {filename}. Run ml/prepare_data.py"
@@ -107,14 +126,24 @@ def classify_chunk(req: ClassifyChunkRequest) -> ClassifyChunkResponse:
     chunk_id = f"{req.session_id}_chunk{req.chunk_index}"
     prediction = "synthetic" if is_synthetic else "real"
     ground_truth = meta.get("label", "unknown")
+    correct = prediction == ground_truth
     trace_meta = {
         "ground_truth": ground_truth,
-        "correct": prediction == ground_truth,
+        "correct": correct,
         "generator_type": meta.get("generator_type", "unknown"),
         "chunk_length_s": req.duration_s,
         "source_clip": req.clip_id,
         "run_version": req.run_version or meta.get("run_version", "v1"),
+        # Parameter observability: the decision boundary that produced this
+        # verdict, so PRISM before/after comparisons show what changed.
+        "decision_threshold": DECISION_THRESHOLD,
     }
+    if not correct:
+        # Make failures legible to PRISM's RCA pipeline: misclassifications
+        # become flagged/reviewable traces, so failure clustering has signal.
+        trace_meta["requires_review"] = True
+        trace_meta["review_reason"] = "misclassification"
+
     prism.emit_trace(
         chunk_id=chunk_id,
         prediction=prediction,
@@ -122,6 +151,7 @@ def classify_chunk(req: ClassifyChunkRequest) -> ClassifyChunkResponse:
         latency_ms=latency_ms,
         session_id=req.session_id,
         metadata=trace_meta,
+        misclassified=not correct,
     )
 
     return ClassifyChunkResponse(

@@ -1,36 +1,132 @@
 {
   "clips": [
     {
-      "id": "test_real_01",
+      "id": "demo_real_LA_E_7141383",
       "label": "real",
       "generator_type": "human",
-      "filename": "test_real_01.wav",
-      "duration_s": 8.0,
-      "freq": 180.0
+      "filename": "demo_real_LA_E_7141383.wav",
+      "duration_s": 4.35,
+      "run_version": "demo"
     },
     {
-      "id": "test_real_02",
+      "id": "demo_synthetic_LA_E_2864414",
+      "label": "synthetic",
+      "generator_type": "attack_A08",
+      "filename": "demo_synthetic_LA_E_2864414.wav",
+      "duration_s": 2.73,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_synthetic_LA_E_8585851",
+      "label": "synthetic",
+      "generator_type": "attack_A08",
+      "filename": "demo_synthetic_LA_E_8585851.wav",
+      "duration_s": 1.41,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_real_LA_E_5826594",
       "label": "real",
       "generator_type": "human",
-      "filename": "test_real_02.wav",
-      "duration_s": 6.5,
-      "freq": 200.0
+      "filename": "demo_real_LA_E_5826594.wav",
+      "duration_s": 5.85,
+      "run_version": "demo"
     },
     {
-      "id": "test_synth_01",
+      "id": "demo_synthetic_LA_E_2839569",
       "label": "synthetic",
-      "generator_type": "tone_gen_a",
-      "filename": "test_synth_01.wav",
-      "duration_s": 7.0,
-      "freq": 260.0
+      "generator_type": "attack_A07",
+      "filename": "demo_synthetic_LA_E_2839569.wav",
+      "duration_s": 2.0,
+      "run_version": "demo"
     },
     {
-      "id": "test_synth_02",
+      "id": "demo_real_LA_E_9104242",
+      "label": "real",
+      "generator_type": "human",
+      "filename": "demo_real_LA_E_9104242.wav",
+      "duration_s": 5.55,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_synthetic_LA_E_4772817",
       "label": "synthetic",
-      "generator_type": "tone_gen_b",
-      "filename": "test_synth_02.wav",
-      "duration_s": 9.0,
-      "freq": 300.0
+      "generator_type": "attack_A08",
+      "filename": "demo_synthetic_LA_E_4772817.wav",
+      "duration_s": 1.73,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_synthetic_LA_E_3405320",
+      "label": "synthetic",
+      "generator_type": "attack_A07",
+      "filename": "demo_synthetic_LA_E_3405320.wav",
+      "duration_s": 3.1,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_real_LA_E_6411489",
+      "label": "real",
+      "generator_type": "human",
+      "filename": "demo_real_LA_E_6411489.wav",
+      "duration_s": 2.09,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_real_LA_E_2135071",
+      "label": "real",
+      "generator_type": "human",
+      "filename": "demo_real_LA_E_2135071.wav",
+      "duration_s": 2.94,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_real_LA_E_9617604",
+      "label": "real",
+      "generator_type": "human",
+      "filename": "demo_real_LA_E_9617604.wav",
+      "duration_s": 4.05,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_real_LA_E_9688311",
+      "label": "real",
+      "generator_type": "human",
+      "filename": "demo_real_LA_E_9688311.wav",
+      "duration_s": 2.05,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_synthetic_LA_E_1002394",
+      "label": "synthetic",
+      "generator_type": "attack_A08",
+      "filename": "demo_synthetic_LA_E_1002394.wav",
+      "duration_s": 0.86,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_real_LA_E_8370531",
+      "label": "real",
+      "generator_type": "human",
+      "filename": "demo_real_LA_E_8370531.wav",
+      "duration_s": 4.04,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_synthetic_LA_E_6780294",
+      "label": "synthetic",
+      "generator_type": "attack_A07",
+      "filename": "demo_synthetic_LA_E_6780294.wav",
+      "duration_s": 2.68,
+      "run_version": "demo"
+    },
+    {
+      "id": "demo_synthetic_LA_E_3960040",
+      "label": "synthetic",
+      "generator_type": "attack_A07",
+      "filename": "demo_synthetic_LA_E_3960040.wav",
+      "duration_s": 1.35,
+      "run_version": "demo"
     }
   ]
 }

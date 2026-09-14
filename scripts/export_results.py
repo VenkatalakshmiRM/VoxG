@@ -29,10 +29,10 @@ def load_env() -> dict[str, str]:
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
                 k, v = line.split("=", 1)
-                env[k.strip()] = v.strip()
-    env.setdefault("PRISMTRACE_HOST", os.environ.get("PRISMTRACE_HOST", ""))
-    env.setdefault("PRISMTRACE_API_KEY", os.environ.get("PRISMTRACE_API_KEY", ""))
-    env.setdefault("PRISMTRACE_PROJECT_ID", os.environ.get("PRISMTRACE_PROJECT_ID", ""))
+                env[k.strip()] = v.strip().strip("\"'")
+    env.setdefault("PRISMTRACE_HOST", os.environ.get("PRISMTRACE_HOST", "").strip("\"'"))
+    env.setdefault("PRISMTRACE_API_KEY", os.environ.get("PRISMTRACE_API_KEY", "").strip("\"'"))
+    env.setdefault("PRISMTRACE_PROJECT_ID", os.environ.get("PRISMTRACE_PROJECT_ID", "").strip("\"'"))
     return env
 
 

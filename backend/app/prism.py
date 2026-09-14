@@ -51,12 +51,21 @@ def emit_trace(
     latency_ms: int,
     session_id: str,
     metadata: dict[str, Any],
+    misclassified: bool = False,
 ) -> None:
-    """Emit one classification trace to PRISM. Never raises."""
+    """Emit one classification trace to PRISM. Never raises.
+
+    Misclassified chunks carry an explicit MISCLASSIFIED marker in the output
+    text so PRISM's status classifier flags them — giving the RCA failure
+    clustering real signal instead of a sea of healthy traces.
+    """
     client = _get_client()
     if client is None:
         return
     try:
+        output = f"prediction={prediction}, confidence={confidence:.2f}"
+        if misclassified:
+            output = f"MISCLASSIFIED: {output}"
         client.trace_llm(
             model="wav2vec2-asvspoof-classifier",
             input_messages=[
@@ -69,7 +78,7 @@ def emit_trace(
                     ),
                 }
             ],
-            output=f"prediction={prediction}, confidence={confidence:.2f}",
+            output=output,
             latency_ms=latency_ms,
             session_id=session_id,
             agent_id=AGENT_ID,

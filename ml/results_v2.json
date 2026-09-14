@@ -1,0 +1,67 @@
+{
+  "run_version": "v2",
+  "session_id": "eval-v2-fdc25c",
+  "model_chunks": 204,
+  "accuracy": 0.9754901960784313,
+  "correct": 199,
+  "errors": 0,
+  "elapsed_s": 64.6,
+  "by_generator": {
+    "attack_A07": {
+      "acc": 1.0,
+      "n": 13
+    },
+    "attack_A08": {
+      "acc": 1.0,
+      "n": 11
+    },
+    "attack_A09": {
+      "acc": 1.0,
+      "n": 12
+    },
+    "attack_A10": {
+      "acc": 0.7272727272727273,
+      "n": 11
+    },
+    "attack_A11": {
+      "acc": 1.0,
+      "n": 13
+    },
+    "attack_A12": {
+      "acc": 1.0,
+      "n": 13
+    },
+    "attack_A13": {
+      "acc": 0.9166666666666666,
+      "n": 12
+    },
+    "attack_A14": {
+      "acc": 1.0,
+      "n": 11
+    },
+    "attack_A15": {
+      "acc": 1.0,
+      "n": 11
+    },
+    "attack_A16": {
+      "acc": 1.0,
+      "n": 12
+    },
+    "attack_A17": {
+      "acc": 1.0,
+      "n": 12
+    },
+    "attack_A18": {
+      "acc": 0.9090909090909091,
+      "n": 11
+    },
+    "attack_A19": {
+      "acc": 1.0,
+      "n": 11
+    },
+    "human": {
+      "acc": 1.0,
+      "n": 51
+    }
+  }
+}
