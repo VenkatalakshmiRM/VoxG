@@ -1,0 +1,36 @@
+{
+  "clips": [
+    {
+      "id": "test_real_01",
+      "label": "real",
+      "generator_type": "human",
+      "filename": "test_real_01.wav",
+      "duration_s": 8.0,
+      "freq": 180.0
+    },
+    {
+      "id": "test_real_02",
+      "label": "real",
+      "generator_type": "human",
+      "filename": "test_real_02.wav",
+      "duration_s": 6.5,
+      "freq": 200.0
+    },
+    {
+      "id": "test_synth_01",
+      "label": "synthetic",
+      "generator_type": "tone_gen_a",
+      "filename": "test_synth_01.wav",
+      "duration_s": 7.0,
+      "freq": 260.0
+    },
+    {
+      "id": "test_synth_02",
+      "label": "synthetic",
+      "generator_type": "tone_gen_b",
+      "filename": "test_synth_02.wav",
+      "duration_s": 9.0,
+      "freq": 300.0
+    }
+  ]
+}

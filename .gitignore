@@ -1,0 +1,28 @@
+# Environment / secrets
+.env
+.env.local
+.freebuff/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+
+# Models & datasets (large, downloaded)
+ml/data/
+ml/checkpoints/
+ml/heldout_manifest.json
+backend/clips/*.wav
+
+# Dev server logs
+.uvicorn.log
+.vite.log
+
+# Misc
+.DS_Store
+*.log
