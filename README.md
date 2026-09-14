@@ -43,4 +43,8 @@ Only proceed to logging the real evaluation batch when `live_connected` is `true
 3. `python ml/replay_batch.py` — log the held-out batch to PRISM (run_version=v1).
 4. PRISM dashboard (Root Cause / Agent Intelligence) → identify ONE weakness → targeted fix → `replay_batch.py` with `run_version=v2` → export before/after numbers.
 
-See `PLAN.md` for the full build plan.
+See `PLAN.md` for the full build plan, and the deep-dive docs:
+
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — how the system works (plain-English intro, system diagrams, component reference, model details)
+- [`docs/TECH_STACK.md`](docs/TECH_STACK.md) — every technology, why it was chosen, and what was deliberately rejected
+- [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md) — setup, demo, the PRISM evaluation loop, event-night checklist, troubleshooting
